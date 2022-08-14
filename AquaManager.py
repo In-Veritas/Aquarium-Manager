@@ -54,11 +54,24 @@ def insert_data():
         fieldnames = ["Date","pH","NO2","NO3","PO4","Ammonia","Alkalinity","Ca","Mg"]
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
         writer.writerow(parameter_dict)
+    check_entry_number
 
-        
+
 def anything_else():
     print("\nDone!\nAnything else?\n")
     start()
+
+
+def check_entry_number():
+    f = open("AquaManager.csv", 'r', encoding='utf8', errors='ignore')
+    for i, line in enumerate(f.readlines()):
+        total_lines = i
+    if total_lines > 30:
+        print("\nCongratulations! Your tank has reached one month of age! Maybe think of adding some corals to it!\n")
+    elif total_lines > 100:
+        print("\nYou have tested the water 100 times! Congrats!\n")
+    return
+
 
 def start():
     a = welcome()
@@ -73,6 +86,8 @@ def start():
     elif a == 3:
         print("\nBuh-Bye!\n")
         return
+
+
 
 
 print("\n \n \n AquaManager \n \n \n")
