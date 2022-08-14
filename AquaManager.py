@@ -1,4 +1,6 @@
+from __future__ import print_function
 import csv
+import string
 import sys
 from datetime import date
 import msvcrt as m
@@ -13,6 +15,12 @@ def is_number(s):
         float(s)
         return True
     except ValueError:
+        return False
+
+def is_null(s = string):
+    if s.lower() =='n' or s.lower() == "null":
+        return True
+    else:
         return False
 
 def welcome():
@@ -32,18 +40,16 @@ def insert_parameter():
                 sys.exit("This date has already been inserted.")
     for name in parameter_names:
         parameter = input("Please insert the " + name + "\n")
-        while not is_number(parameter):
+        while not is_number(parameter) and not is_null(parameter):
             wait()
-            print("Not a number\n")
+            print("Not a valid entry!\n")
             parameter = input("Please insert the" + name + "\n")
+        if is_null(parameter):
+            parameter = "Null"
         parameter_dict[name] = (parameter)
 
 
 def insert_data():
-    with open('AquaManager.csv', 'w',encoding='utf8', newline='') as csvfile:
-        fieldnames = ["Date","pH","NO2","NO3","PO4","Ammonia","Alkalinity","Ca","Mg"]
-        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
-        writer.writeheader()
     with open('AquaManager.csv', 'a',encoding='utf8', newline='') as csvfile:
         fieldnames = ["Date","pH","NO2","NO3","PO4","Ammonia","Alkalinity","Ca","Mg"]
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
@@ -51,7 +57,7 @@ def insert_data():
 
         
 def anything_else():
-    a=input("\nDone!\nAnything else?\n")
+    print("\nDone!\nAnything else?\n")
     start()
 
 def start():
@@ -68,6 +74,7 @@ def start():
         print("\nBuh-Bye!\n")
         return
 
-print(date.today().isoformat())
+
 print("\n \n \n AquaManager \n \n \n")
+print("Today is " + date.today().isoformat())
 start()
